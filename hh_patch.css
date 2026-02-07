@@ -1,0 +1,87 @@
+/* ===== HangHordó: térképes gyorsgombok + mobil draw bar ===== */
+
+.leaflet-control.hh-quick.leaflet-bar {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* a zoom mellé tolás (a te CSS-edben nagyok a zoom gombok) */
+.leaflet-top.leaflet-left .hh-quick {
+  margin-left: 64px;
+  margin-top: 0;
+}
+
+.hh-quick a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  position: relative;
+  user-select: none;
+}
+
+.hh-quick a.hh-active {
+  outline: 2px solid rgba(0,0,0,0.25);
+}
+
+.hh-quick a .hh-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  display: none;
+}
+
+body.hh-draw-active .hh-drawbar {
+  display: flex;
+}
+
+.hh-drawbar {
+  display: none;
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  gap: 10px;
+  z-index: 9999;
+
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  backdrop-filter: blur(6px);
+}
+
+.hh-drawbar button {
+  flex: 1;
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.hh-drawbar button:active {
+  transform: translateY(1px);
+}
+
+.hh-drawbar button.hh-warn {
+  background: rgba(255, 230, 230, 0.9);
+}
