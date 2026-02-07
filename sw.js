@@ -1,6 +1,6 @@
 /* HH_BUILD: 2025-12-14_01 */
 
-const CACHE_NAME = "hanghordo-v2"; // <-- verziót növeld minden deploynál
+const CACHE_NAME = "hanghordo-v3"; // <-- verziót növeld minden deploynál
 const ASSETS = [
   "/",                  
   "/index.html",
@@ -8,6 +8,8 @@ const ASSETS = [
   "/app.js",
   "/splash.png",
   "/manifest.webmanifest"
+  "hh_patch.js"
+  "hh_patch.css"
 ];
 
 self.addEventListener("install", (event) => {
@@ -50,3 +52,4 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
