@@ -1,5 +1,6 @@
+/* ===== HangHordó: térképes gyorsgombok + mobil draw bar ===== */
 
-/* === FIX: ne legyen dupla rajz ikon (Leaflet-Draw toolbar elrejtése) === */
+/* A régi Leaflet-Draw toolbar maradjon rejtve (külön ceruza ikonok ne legyenek) */
 .leaflet-control-draw,
 .leaflet-draw,
 .leaflet-draw-toolbar,
@@ -7,36 +8,44 @@
   display: none !important;
 }
 
-/* ===== HangHordó: térképes gyorsgombok + mobil draw bar ===== */
+/* HangHordó “barna” téma */
+:root {
+  --hh-brown: rgba(214, 197, 170, 0.95); /* menüszerű barna */
+  --hh-brown-border: rgba(0, 0, 0, 0.12);
+  --hh-shadow: 0 10px 26px rgba(0,0,0,0.16);
+}
 
-
+/* Gyorsgombok a zoom mellé, EGYMÁS ALATT */
 .leaflet-control.hh-quick.leaflet-bar {
   display: flex;
-  gap: 6px;
-  padding: 6px;
+  flex-direction: column;   /* <-- ez a lényeg */
+  gap: 8px;
+  padding: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
 }
 
-/* a zoom mellé tolás (a te CSS-edben nagyok a zoom gombok) */
+/* jobb oldalra a zoom mellé */
 .leaflet-top.leaflet-left .hh-quick {
-  margin-left: 64px;
+  margin-left: 62px; /* zoom gomb + kis távolság */
   margin-top: 0;
 }
 
+/* Ugyanakkora, mint a zoom (48px) */
 .hh-quick a {
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  background: var(--hh-brown);
+  border: 1px solid var(--hh-brown-border);
+  box-shadow: var(--hh-shadow);
   position: relative;
   user-select: none;
+  color: #111;
 }
 
 .hh-quick a.hh-active {
@@ -58,6 +67,7 @@
   display: none;
 }
 
+/* Alsó rajz-sáv */
 body.hh-draw-active .hh-drawbar {
   display: flex;
 }
@@ -73,19 +83,21 @@ body.hh-draw-active .hh-drawbar {
 
   padding: 10px;
   border-radius: 16px;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  background: var(--hh-brown);
+  border: 1px solid var(--hh-brown-border);
+  box-shadow: var(--hh-shadow);
   backdrop-filter: blur(6px);
 }
 
 .hh-drawbar button {
   flex: 1;
-  height: 46px;
+  height: 48px;
   border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.10);
-  background: #fff;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.85);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #111;
 }
 
 .hh-drawbar button:active {
@@ -93,5 +105,5 @@ body.hh-draw-active .hh-drawbar {
 }
 
 .hh-drawbar button.hh-warn {
-  background: rgba(255, 230, 230, 0.9);
+  background: rgba(255, 230, 230, 0.95);
 }
