@@ -107,3 +107,47 @@ body.hh-draw-active .hh-drawbar {
 .hh-drawbar button.hh-warn {
   background: rgba(255, 230, 230, 0.95);
 }
+/* === Zoom (+/-) a jobb szélre, nulla margóval === */
+.leaflet-top.leaflet-right {
+  right: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-right .leaflet-control {
+  margin: 0 !important;            /* Leaflet alap 10px margó eltűnik */
+}
+
+/* === Gyorsgombok a bal szélre, nulla margóval === */
+.leaflet-top.leaflet-left {
+  left: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-left .hh-quick.leaflet-control {
+  margin: 0 !important;
+}
+
+/* === + / - és gyorsgombok: azonos méret/alak === */
+.leaflet-control-zoom a,
+.hh-quick a {
+  width: 56px !important;
+  height: 56px !important;
+  line-height: 56px !important;
+  border-radius: 10px !important;
+  font-size: 22px !important;
+}
+
+/* A gyorsgombok egymás alatt */
+.leaflet-control.hh-quick.leaflet-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.leaflet-control-zoom a {
+  background: var(--hh-brown) !important;
+  border: 1px solid var(--hh-brown-border) !important;
+  box-shadow: var(--hh-shadow) !important;
+  color: #111 !important;
+}
