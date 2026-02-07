@@ -1,4 +1,14 @@
+
+/* === FIX: ne legyen dupla rajz ikon (Leaflet-Draw toolbar elrejtése) === */
+.leaflet-control-draw,
+.leaflet-draw,
+.leaflet-draw-toolbar,
+.leaflet-draw-section {
+  display: none !important;
+}
+
 /* ===== HangHordó: térképes gyorsgombok + mobil draw bar ===== */
+
 
 .leaflet-control.hh-quick.leaflet-bar {
   display: flex;
