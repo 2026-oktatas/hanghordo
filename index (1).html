@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <!-- 01 META -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HangHordó</title>
+
+  <!-- 02 LEAFLET + DRAW -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+
+  <!-- 03 APP CSS -->
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  
+  <!-- PWA APP -->
+<meta name="theme-color" content="#f7f2ec">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+</head>
+
+<body>
+  <!-- 04 SPLASH -->
+  <div id="splash-screen" aria-hidden="false">
+    <div class="splash-inner">
+      <img id="splash-image" src="./splash.png" alt="HangHordó splash" />
+    </div>
+  </div>
+
+  <!-- 05 LOGIN / MENÜ -->
+  <div id="login-screen">
+    <div class="card">
+      <h1 class="title">HangHordó</h1>
+      <p class="subtitle">Készítette: Sambucus Tisza sziget</p>
+
+      <div id="main-menu">
+        <button id="btn-main-create" class="btn primary">Új szórólapozás létrehozása</button>
+        <button id="btn-main-join" class="btn primary">Csatlakozás meglévő szórólapozáshoz</button>
+        <button id="btn-main-settings" class="btn primary">Beállítások</button>
+      </div>
+
+      <!-- 06 CREATE -->
+      <div id="create-screen" class="screen hidden">
+        <h3>Új szórólapozás létrehozása</h3>
+
+        <label>
+          Szervező / Becenév:
+          <input id="create-alias" type="text" placeholder="Pl. Tivadar" />
+        </label>
+
+        <label class="locality-wrapper">
+          Település (lista alapján):
+          <input id="create-locality" type="text" placeholder="Kezdd el gépelni..." autocomplete="off" />
+          <div id="locality-suggestions" class="suggestions hidden"></div>
+        </label>
+
+        <label>
+          Érvényesség vége (max. 30 nap):
+          <input id="valid-until" type="date" />
+        </label>
+
+        <label>
+          Szórólapozás kód:
+        </label>
+        <div class="token-row">
+          <input id="create-token" type="text" placeholder="Automatikus kód" />
+          <button id="btn-copy-token" class="secondary" type="button">Másolás</button>
+        </div>
+
+        <div id="create-status" class="status-message hidden"></div>
+
+        <button id="create-button">Szórólapozás létrehozása és belépés</button>
+        <button id="btn-back-from-create" class="link-button">← Vissza a főmenübe</button>
+      </div>
+
+      <!-- 07 JOIN -->
+      <div id="join-screen" class="screen hidden">
+        <h3>Csatlakozás meglévő szórólapozáshoz</h3>
+
+        <label>
+          Becenév:
+          <input id="join-alias" type="text" placeholder="Pl. Peti" />
+        </label>
+
+        <label class="locality-wrapper">
+          Település (kötelező):
+          <input id="join-locality" type="text" placeholder="Kezdd el gépelni..." autocomplete="off" />
+          <div id="join-locality-suggestions" class="suggestions hidden"></div>
+        </label>
+
+        <label>
+          Fő kód (ehhez rögzítesz):
+        </label>
+        <div class="row">
+          <input id="join-token" type="text" placeholder="Pl. ZSÁM_25W5014_175" />
+          <button id="btn-add-ro-token" class="secondary" type="button" title="Read-only kód hozzáadása">+</button>
+        </div>
+
+        <div id="readonly-token-container" class="ro-container"></div>
+        <p class="muted small">Read-only kódok (max 3): csak megjelenítés, feltöltés nélkül.</p>
+
+        <div id="join-status" class="status-message hidden"></div>
+
+        <button id="join-button">Belépés és térkép betöltése</button>
+        <button id="btn-back-from-join" class="link-button">← Vissza a főmenübe</button>
+      </div>
+
+      <!-- 08 SETTINGS -->
+      <div id="settings-screen" class="screen hidden">
+        <h3>Beállítások</h3>
+
+        <div class="settings-row">
+          <div>GPS (későbbi funkció, alapból ki)</div>
+          <label class="switch">
+            <input id="gps-toggle" type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <p class="muted small">A GPS-t jelenleg az alkalmazás nem használja. (2. fázis)</p>
+
+        <button id="btn-back-from-settings" class="link-button">← Vissza a főmenübe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 APP / TÉRKÉP -->
+  <div id="app-container" class="hidden">
+    <div id="app-header">
+      <button id="menu-button" class="secondary" type="button">Menü</button>
+      <div id="current-mission-info"></div>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- 10 OLDALSÓ MENÜ -->
+    <div id="app-menu">
+      <button id="close-menu-button" type="button">×</button>
+      <h3>Menü</h3>
+
+      <ul>
+        <li><a href="#" id="menu-refresh">Frissítés (útvonalak betöltése)</a></li>
+        <li><a href="#" id="menu-upload">Szórólapozás manuális feltöltése</a></li>
+        <li><a href="#" id="menu-summary">Összesítés</a></li>
+        <li class="separator"></li>
+        <li><a href="#" id="menu-back-main">Vissza a főmenübe</a></li>
+      </ul>
+
+      <div class="separator"></div>
+
+      <div class="legend">
+        <div class="legend-row"><span class="dot green"></span> Fő kód (feltöltött)</div>
+        <div class="legend-row"><span class="dot blue"></span> Read-only kódok (feltöltött)</div>
+        <div class="legend-row"><span class="dot yellow"></span> Saját rajz (még nincs feltöltve)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 IDÉZET POPUP (NINCS X) -->
+  <div id="quote-modal" class="quote-modal hidden" aria-hidden="true">
+    <div id="quote-backdrop" class="quote-backdrop"></div>
+    <div class="quote-card">
+      <div id="quote-text" class="quote-text"></div>
+      <div id="quote-author" class="quote-author"></div>
+      <button id="quote-ok" class="quote-ok" type="button">Köszönjük a segítségedet!</button>
+    </div>
+  </div>
+
+  <!-- 12 JS LIBEK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+  <!-- 13 APP JS -->
+  <script src="./app.js"></script>
+  
+  <!-- 14 SW worker -->
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js");
+    });
+  }
+</script>
+  
+</body>
+</html>
