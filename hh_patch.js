@@ -74,6 +74,10 @@
     map.__hhPatched3 = true;
 
     patchLeafletDrawFinishGate();
+    // Zoom (+/-) menjen a jobb felső sarokba
+    if (map.zoomControl && typeof map.zoomControl.setPosition === "function") {
+      map.zoomControl.setPosition("topright");
+    }
 
     const container = map.getContainer();
 
@@ -206,13 +210,13 @@
       onAdd: function () {
         const div = L.DomUtil.create("div", "leaflet-control hh-quick leaflet-bar");
 
-        const parts = [];
-        parts.push(quickBtn("draw", "Rajzolás", "✏", false));
-        parts.push(quickBtn("refresh", "Frissítés", "⟳", false));
+            const parts = [];
+      parts.push(quickBtn("home", "Főmenü", "⌂", false));
+      parts.push(quickBtn("refresh", "Frissítés", "⟳", false));
+      parts.push(quickBtn("draw", "Rajzolás", "✏", false));
+      if (UI.showUpload) parts.push(quickBtn("upload", "Feltöltés", "⬆", true));
+      if (UI.showSummary) parts.push(quickBtn("summary", "Összesítés", "Σ", false));
 
-        if (UI.showUpload) parts.push(quickBtn("upload", "Feltöltés", "⬆", true));
-        if (UI.showSummary) parts.push(quickBtn("summary", "Összesítés", "Σ", false));
-        if (UI.showHome) parts.push(quickBtn("home", "Főmenü", "⌂", false));
 
         div.innerHTML = parts.join("");
 
