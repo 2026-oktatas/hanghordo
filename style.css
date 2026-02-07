@@ -1,0 +1,491 @@
+/* HH_BUILD: 2025-12-14_01 */
+
+/* 01 ROOT – PASZTELL PALETTA (AZ 1. KÉP ALAPJÁN) */
+:root {
+  --bg: #f7f2ec;
+  --panel: #efe6dc;
+  --panel2: #f7f0e8;
+  --accent: #d6b48a;
+  --accent-hover: #caa676;
+  --text: #3b2e2a;
+  --muted: #8c7a6f;
+  --border: #d3c3b0;
+
+  --ok: #1e6a1e;
+  --error: #7f1f1f;
+
+  --green: #2e7d32;
+  --blue: #1565c0;
+  --yellow: #f2c94c;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.hidden { display: none !important; }
+
+/* 02 SPLASH */
+#splash-screen{
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#splash-screen.hidden{
+  display: none !important;
+}
+.splash-inner{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#splash-image{
+  max-width: 80vw;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 03 LOGIN / KÁRTYA */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 18px 16px 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.title {
+  margin: 12px 0 6px;
+  font-size: 2.1em;
+  letter-spacing: 0.04em;
+}
+
+.subtitle {
+  margin: 0 0 18px;
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+/* 04 FŐMENÜ GOMBOK – MIND BARNA */
+#main-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0 0;
+}
+
+#main-menu button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+#main-menu button:hover { background: var(--accent-hover); }
+#main-menu button:active { transform: scale(0.98); }
+
+/* 05 SCREEN PANELEK */
+.screen {
+  width: 100%;
+  max-width: 520px;
+  background: transparent;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: none;
+  text-align: left;
+  margin-top: 14px;
+}
+
+.screen.hidden { display: none; }
+
+.screen h3 {
+  margin: 0 0 12px;
+}
+
+/* 06 FORM */
+label {
+  display: block;
+  font-size: 0.9em;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95em;
+  background: #fff;
+  color: var(--text);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(214,180,138,0.35);
+}
+
+/* 07 TOKEN SOR */
+.token-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.token-row input { flex: 1; }
+
+.secondary {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: #c7b49c;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 700;
+  cursor: pointer;
+}
+.secondary:hover { background: #b79f83; }
+
+/* 08 JOIN ROW + RO */
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ro-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ro-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ro-row input { flex: 1; }
+
+.muted { color: var(--muted); }
+.small { font-size: 0.85em; }
+
+/* 09 CREATE/JOIN/SETTINGS CTA gombok */
+#join-screen button:not(.link-button):not(.secondary),
+#create-screen button:not(.link-button):not(.secondary),
+#settings-screen button:not(.link-button) {
+  width: 100%;
+  padding: 11px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+#join-screen button:not(.link-button):hover,
+#create-screen button:not(.link-button):hover,
+#settings-screen button:not(.link-button):hover {
+  background: var(--accent-hover);
+}
+#join-screen button:not(.link-button):active,
+#create-screen button:not(.link-button):active,
+#settings-screen button:not(.link-button):active {
+  transform: scale(0.98);
+}
+
+/* 10 LINK BUTTON */
+.link-button {
+  margin-top: 14px;
+  padding: 8px 0;
+  width: 100%;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 0.9em;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* 11 STÁTUSZ */
+.status-message {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+.status-message.hidden { display: none; }
+.status-message.error { color: var(--error); }
+.status-message.ok { color: var(--ok); }
+
+/* 12 AUTOCOMPLETE */
+.locality-wrapper { position: relative; }
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 180px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  z-index: 1000;
+  margin-top: 3px;
+}
+.suggestions.hidden { display: none; }
+.suggestion-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.suggestion-item:hover { background: #f0e3d5; }
+
+/* 13 SWITCH */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: .2s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .2s;
+  border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(18px); }
+
+/* 14 APP / TÉRKÉP */
+#app-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+#app-container.hidden { display: none; }
+
+#app-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background: var(--panel);
+  border-bottom: 1px solid #ddc9af;
+  gap: 10px;
+}
+
+#current-mission-info {
+  font-size: 0.85em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#map { flex: 1; }
+
+/* 15 OLDALSÓ MENÜ */
+#app-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--panel);
+  color: var(--text);
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 1001;
+  box-shadow: 2px 0 5px rgba(0,0,0,.15);
+  padding: 18px 14px;
+}
+#app-menu.open { transform: translateX(0); }
+
+#app-menu h3 {
+  margin: 0 0 10px;
+  border-bottom: 1px solid #decab3;
+  padding-bottom: 6px;
+}
+
+#close-menu-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: none;
+  background: none;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+#app-menu ul { list-style: none; padding: 0; margin: 10px 0 0; }
+#app-menu li { margin-bottom: 3px; }
+
+#app-menu a {
+  display: block;
+  padding: 7px 6px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.92em;
+}
+#app-menu a:hover { background: #dfcfbd; }
+
+#app-menu .separator { border-top: 1px solid #d1bfa9; margin: 10px 0; }
+
+.legend { color: var(--muted); font-size: 0.9em; }
+.legend-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+.dot.green { background: var(--green); }
+.dot.blue { background: var(--blue); }
+.dot.yellow { background: var(--yellow); }
+
+/* 16 LEAFLET GOMBOK NAGYÍTÁSA + CERUZA */
+.leaflet-control-zoom a {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+}
+
+.leaflet-draw-toolbar a {
+  width: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  position: relative !important;
+}
+
+/* Sprite tiltás */
+.leaflet-draw-toolbar a::before { content: none !important; }
+
+
+/* Sprite ikon kikapcsolása a ceruza (polyline) gombnál */
+.leaflet-draw-toolbar a.leaflet-draw-draw-polyline{
+  background-image: none !important;
+  background-position: 0 0 !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Ceruza ikon a vonal rajzolásra */
+.leaflet-draw-toolbar a.leaflet-draw-draw-polyline::after{
+  content: "✏";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--text);
+  background: rgba(255,255,255,0.0);
+}
+
+/* 17 IDÉZET MODAL (NINCS X) */
+.quote-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+}
+.quote-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+.quote-card {
+  position: absolute;
+  left: 50%;
+  top: 16vh;
+  transform: translateX(-50%);
+  width: min(560px, 92vw);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+.quote-text {
+  background: rgba(255,255,255,0.55);
+  border-radius: 12px;
+  padding: 14px 12px;
+  font-size: 1.05em;
+  margin: 0 0 10px;
+}
+.quote-author {
+  text-align: right;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.quote-ok {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.quote-ok:hover { background: var(--accent-hover); }
+
+/* 18 MOBIL */
+@media (max-width: 480px) {
+  .card { max-width: 420px; }
+  .title { font-size: 1.9em; }
+}
+
+.token-row button {
+  width: auto !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap;
+  margin-top: 0 !important;
+}
