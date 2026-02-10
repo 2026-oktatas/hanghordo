@@ -1,6 +1,6 @@
-/* ===== HangHordó: térképes gyorsgombok + mobil draw bar ===== */
+/* ===== HangHordó PATCH CSS (tisztított): gyorsgombok + mobil drawbar + zoom pozíció ===== */
 
-/* A régi Leaflet-Draw toolbar maradjon rejtve (külön ceruza ikonok ne legyenek) */
+/* Régi Leaflet-Draw toolbar maradjon rejtve */
 .leaflet-control-draw,
 .leaflet-draw,
 .leaflet-draw-toolbar,
@@ -8,50 +8,92 @@
   display: none !important;
 }
 
-/* HangHordó “barna” téma */
+/* Témaparaméterek */
 :root {
-  --hh-brown: rgba(214, 197, 170, 0.95); /* menüszerű barna */
+  --hh-brown: rgba(214, 197, 170, 0.95);     /* menüszerű barna */
   --hh-brown-border: rgba(0, 0, 0, 0.12);
   --hh-shadow: 0 10px 26px rgba(0,0,0,0.16);
+
+  --hh-control-size: 56px;
+  --hh-control-radius: 10px;
+  --hh-icon-size: 32px;
 }
 
-/* Gyorsgombok a zoom mellé, EGYMÁS ALATT */
+/* +/−: jobbra, teljes szélen (margin nélkül) */
+.leaflet-top.leaflet-right {
+  right: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-right .leaflet-control {
+  margin: 0 !important;
+}
+
+/* Gyorsgombok: balra, teljes szélen (margin nélkül) */
+.leaflet-top.leaflet-left {
+  left: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-left .hh-quick.leaflet-control {
+  margin: 0 !important;
+}
+
+/* Leaflet-bar doboz ne rajzoljon extra keretet */
+.leaflet-bar {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Zoom gombok egységesítése */
+.leaflet-control-zoom a {
+  width: var(--hh-control-size) !important;
+  height: var(--hh-control-size) !important;
+  line-height: var(--hh-control-size) !important;
+
+  border-radius: var(--hh-control-radius) !important;
+  font-size: var(--hh-icon-size) !important;
+  font-weight: 800 !important;
+
+  background: var(--hh-brown) !important;
+  border: 1px solid var(--hh-brown-border) !important;
+  box-shadow: var(--hh-shadow) !important;
+  color: #111 !important;
+}
+
+/* HH gyorsgomb konténer: egymás alatt */
 .leaflet-control.hh-quick.leaflet-bar {
-  display: flex;
-  flex-direction: column;   /* <-- ez a lényeg */
-  gap: 8px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 !important;
 }
 
-/* jobb oldalra a zoom mellé */
-.leaflet-top.leaflet-left .hh-quick {
-  margin-left: 62px; /* zoom gomb + kis távolság */
-  margin-top: 0;
-}
-
-/* Ugyanakkora, mint a zoom (48px) */
+/* HH gyorsgombok egységesítése */
 .hh-quick a {
-  width: 48px;
-  height: 48px;
-  line-height: 48px;
-  text-align: center;
-  font-size: 20px;
-  border-radius: 12px;
-  background: var(--hh-brown);
-  border: 1px solid var(--hh-brown-border);
-  box-shadow: var(--hh-shadow);
-  position: relative;
-  user-select: none;
-  color: #111;
+  width: var(--hh-control-size) !important;
+  height: var(--hh-control-size) !important;
+  line-height: var(--hh-control-size) !important;
+
+  border-radius: var(--hh-control-radius) !important;
+  font-size: var(--hh-icon-size) !important;
+  font-weight: 800 !important;
+
+  text-align: center !important;
+  text-decoration: none !important;
+  user-select: none !important;
+  position: relative !important;
+
+  background: var(--hh-brown) !important;
+  border: 1px solid var(--hh-brown-border) !important;
+  box-shadow: var(--hh-shadow) !important;
+  color: #111 !important;
 }
 
 .hh-quick a.hh-active {
-  outline: 2px solid rgba(0,0,0,0.25);
+  outline: 2px solid rgba(0,0,0,0.22) !important;
 }
 
+/* Badge */
 .hh-quick a .hh-badge {
   position: absolute;
   top: -6px;
@@ -68,9 +110,7 @@
 }
 
 /* Alsó rajz-sáv */
-body.hh-draw-active .hh-drawbar {
-  display: flex;
-}
+body.hh-draw-active .hh-drawbar { display: flex; }
 
 .hh-drawbar {
   display: none;
@@ -91,63 +131,14 @@ body.hh-draw-active .hh-drawbar {
 
 .hh-drawbar button {
   flex: 1;
-  height: 48px;
+  height: 52px;
   border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.12);
   background: rgba(255,255,255,0.85);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: #111;
 }
 
-.hh-drawbar button:active {
-  transform: translateY(1px);
-}
-
-.hh-drawbar button.hh-warn {
-  background: rgba(255, 230, 230, 0.95);
-}
-/* === Zoom (+/-) a jobb szélre, nulla margóval === */
-.leaflet-top.leaflet-right {
-  right: 0 !important;
-  top: 0 !important;
-}
-.leaflet-top.leaflet-right .leaflet-control {
-  margin: 0 !important;            /* Leaflet alap 10px margó eltűnik */
-}
-
-/* === Gyorsgombok a bal szélre, nulla margóval === */
-.leaflet-top.leaflet-left {
-  left: 0 !important;
-  top: 0 !important;
-}
-.leaflet-top.leaflet-left .hh-quick.leaflet-control {
-  margin: 0 !important;
-}
-
-/* === + / - és gyorsgombok: azonos méret/alak === */
-.leaflet-control-zoom a,
-.hh-quick a {
-  width: 56px !important;
-  height: 56px !important;
-  line-height: 56px !important;
-  border-radius: 10px !important;
-  font-size: 22px !important;
-}
-
-/* A gyorsgombok egymás alatt */
-.leaflet-control.hh-quick.leaflet-bar {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-.leaflet-control-zoom a {
-  background: var(--hh-brown) !important;
-  border: 1px solid var(--hh-brown-border) !important;
-  box-shadow: var(--hh-shadow) !important;
-  color: #111 !important;
-}
+.hh-drawbar button:active { transform: translateY(1px); }
+.hh-drawbar button.hh-warn { background: rgba(255,230,230,0.95); }
