@@ -1,6 +1,6 @@
 /* HH_BUILD: 2025-12-14_01 */
 
-const CACHE_NAME = "hanghordo-v6"; // <-- verziót növeld minden deploynál
+const CACHE_NAME = "hanghordo-v9"; // <-- verziót növeld minden deploynál
 const ASSETS = [
   "/",                  
   "/index.html",
@@ -52,6 +52,7 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
 
 
 
