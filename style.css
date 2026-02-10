@@ -390,45 +390,146 @@ input:checked + .slider:before { transform: translateX(18px); }
 .dot.blue { background: var(--blue); }
 .dot.yellow { background: var(--yellow); }
 
-/* 16 LEAFLET GOMBOK NAGYÍTÁSA + CERUZA */
-.leaflet-control-zoom a {
-  width: 48px !important;
-  height: 48px !important;
-  line-height: 48px !important;
-  font-size: 24px !important;
-  font-weight: 700 !important;
+/* 16 LEAFLET + HH GOMBOK – EGYSÉGES MÉRET/ALAK + SZÉLEKRE */
+:root{
+  --hh-control-bg: var(--panel);         /* barna/pasztell panel */
+  --hh-control-border: #ddc9af;
+  --hh-control-shadow: 0 10px 26px rgba(0,0,0,0.16);
+  --hh-control-size: 56px;               /* egységes méret */
+  --hh-control-radius: 10px;             /* egységes alak */
+  --hh-icon-size: 32px;                  /* ikon/karakter méret */
 }
 
-.leaflet-draw-toolbar a {
-  width: 48px !important;
-  height: 48px !important;
-  line-height: 48px !important;
+/* Zoom (+/-) teljesen jobb szélen */
+.leaflet-top.leaflet-right{
+  right: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-right .leaflet-control{
+  margin: 0 !important;
+}
+
+/* HH gyorsgombok teljesen bal szélen */
+.leaflet-top.leaflet-left{
+  left: 0 !important;
+  top: 0 !important;
+}
+.leaflet-top.leaflet-left .leaflet-control{
+  margin: 0 !important;
+}
+
+/* Leaflet-bar alap kinézet finomhangolás */
+.leaflet-bar{
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Zoom gombok egységesítése */
+.leaflet-control-zoom a{
+  width: var(--hh-control-size) !important;
+  height: var(--hh-control-size) !important;
+  line-height: var(--hh-control-size) !important;
+  font-size: var(--hh-icon-size) !important;
+  font-weight: 800 !important;
+  border-radius: var(--hh-control-radius) !important;
+
+  background: var(--hh-control-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--hh-control-border) !important;
+  box-shadow: var(--hh-control-shadow) !important;
+}
+
+/* HH gyorsgombok – ugyanakkora/alakú mint a zoom */
+.leaflet-control.hh-quick.leaflet-bar{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 !important;
+}
+
+.hh-quick a{
+  width: var(--hh-control-size) !important;
+  height: var(--hh-control-size) !important;
+  line-height: var(--hh-control-size) !important;
+  font-size: var(--hh-icon-size) !important;
+  font-weight: 800 !important;
+  border-radius: var(--hh-control-radius) !important;
+
+  background: var(--hh-control-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--hh-control-border) !important;
+  box-shadow: var(--hh-control-shadow) !important;
+
+  text-decoration: none !important;
+  text-align: center !important;
+  user-select: none !important;
   position: relative !important;
 }
 
-/* Sprite tiltás */
-.leaflet-draw-toolbar a::before { content: none !important; }
-
-
-/* Sprite ikon kikapcsolása a ceruza (polyline) gombnál */
-.leaflet-draw-toolbar a.leaflet-draw-draw-polyline{
-  background-image: none !important;
-  background-position: 0 0 !important;
-  background-repeat: no-repeat !important;
+.hh-quick a.hh-active{
+  outline: 2px solid rgba(0,0,0,0.22) !important;
 }
 
-/* Ceruza ikon a vonal rajzolásra */
-.leaflet-draw-toolbar a.leaflet-draw-draw-polyline::after{
-  content: "✏";
+/* Badge */
+.hh-quick a .hh-badge{
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  line-height: 1;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  display: none;
+}
+
+/* Leaflet-Draw toolbar (régi ceruza) – biztosan rejtve */
+.leaflet-control-draw,
+.leaflet-draw,
+.leaflet-draw-toolbar,
+.leaflet-draw-section{
+  display: none !important;
+}
+
+/* Alsó rajz-sáv (a hh_patch.js hozza létre) */
+body.hh-draw-active .hh-drawbar{ display: flex; }
+
+.hh-drawbar{
+  display: none;
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  gap: 10px;
+  z-index: 9999;
+
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--hh-control-bg);
+  border: 1px solid var(--hh-control-border);
+  box-shadow: var(--hh-control-shadow);
+  backdrop-filter: blur(6px);
+}
+
+.hh-drawbar button{
+  flex: 1;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.85);
+  font-size: 16px;
+  font-weight: 800;
   color: var(--text);
-  background: rgba(255,255,255,0.0);
+}
+
+.hh-drawbar button:active{ transform: translateY(1px); }
+
+.hh-drawbar button.hh-warn{
+  background: rgba(255,230,230,0.95);
 }
 
 /* 17 IDÉZET MODAL (NINCS X) */
